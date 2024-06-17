@@ -60,6 +60,20 @@ def libro_por_id(id):
     except:
         return jsonify({"mensaje": "Error al obtener el libro"}), 500
 
+
+@app.route("/libros/<id>", methods=["DELETE"])
+def eliminar_libro_por_id(id):
+    try:
+        libro = Libro.query.filter_by(id=id).first()
+        if libro:
+            db.session.delete(libro)
+            db.session.commit()
+            return jsonify({"success": True, "mensaje": "Libro con id {id} eliminado exitosamente"}), 200
+        else:
+            return jsonify({"success": False, "mensaje": "No se encontró un libro con id {id}"}), 404
+    except:
+        return jsonify({"success": False, "mensaje": "Error interno del servidor"}), 500
+
 #if __name__ == '__main__':
 #    app.run(host='0.0.0.0', debug=True, port=port)
 #DESCOMENTAR ESTO Y COMENTAR LO DE ABAJO PARA CARGAR BASE DE DATOS
