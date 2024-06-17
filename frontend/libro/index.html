@@ -29,28 +29,29 @@
             <div class="col-12 col-md-8 mx-auto">
                 <div class="card">
                     <div class="card-body text-white">
-                        <span id="loading-message">Loading...</span>
+                        <!--<span id="loading-message">Loading...</span>-->
                         <div class="row">
                             <div class="col-6 my-auto mx-auto">
-                                <img id="image" src="" alt="" class="img-fluid">
+                                <img src="" alt="" class="w-100" id="imagen">
                             </div>
                             <div class="col-4 my-auto mx-auto text-center">
-                                <h2 id="name"></h2>
+                                <h4>Titulo:</h4>
+                                <h3 id="titulo"></h3>
                                 <br>
-                                <h5>Autor:</h5>
-                                <h6 id="author"></h6>
+                                <h4>Autor:</h4>
+                                <h5 id="autor"></h5>
                                 <br>
-                                <h5>Género:</h5>
-                                <h6 id="gender"></h6>
+                                <h4>Categoria:</h4>
+                                <h5 id="categoria"></h5>
                                 <br>
-                                <h5>Fecha de Publicación:</h5>
-                                <h6 id="date-publication"></h6>
+                                <h4>Fecha de Publicación:</h4>
+                                <h5 id="fecha_publicacion"></h5>
                                 <br>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
-                        <a href="http://localhost:8000" class="btn btn-warning">Volver</a>
+                        <a href="http://localhost:8000/libros/" class="btn btn-warning">Volver</a>
                         <a id="edit-btn" href="/editar" class="btn btn-info">Editar</a>
                         <button class="btn btn-danger" onclick="">Eliminar</button>
                     </div>
@@ -60,6 +61,46 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search)
+        const id = params.get("id")
+
+        if (id === null) {
+            window.location.href = "/"; //esto salta si la direccion es: libros/
+        }
+
+        //Aca empieza la logica de mostrar los datos del libro
+        function response_received(response){
+            return response.json()
+        }
+
+        function parse_data(libro){
+            const titulo = document.getElementById("titulo")
+            titulo.innerText = libro.titulo
+
+            const imagen = document.getElementById("imagen")
+            imagen.setAttribute("src", libro.imagen)
+
+            const categoria = document.getElementById("categoria")
+            categoria.innerText = `${libro.categoria}`
+
+            const autor = document.getElementById("autor")
+            autor.innerText = `${libro.autor}`
+
+            const fecha_publicacion = document.getElementById("fecha_publicacion")
+            fecha_publicacion.innerText = `${libro.fecha_publicacion}`
+        }
+
+        function handle_error(error){
+            console.log("error", error)
+            alert("No existe ese libro")
+        }
+
+        fetch(`http://localhost:5000/libros/${id}`)
+            .then(response_received)
+            .then(parse_data)
+            .catch(handle_error)
+    </script>
 </body>
 </html>
     
