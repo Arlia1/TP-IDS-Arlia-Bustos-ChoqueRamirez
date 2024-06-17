@@ -35,6 +35,13 @@
             <hr class="my-4 bg-light">
             <p>Si quieres, puedes seleccionar alguno para: ver, editar o eliminar ese libro...</p>
             <p>O también puedes agregar tu propio libro!</p>
+            <br>
+            <br>
+            <div class="container">
+                <div class="row" id="libros">
+                    
+                </div>
+            </div>
             <a href="/crear" class="btn btn-success">Agregar Libro</a>
         </div>
     </div>
@@ -51,34 +58,34 @@
         function response_received(response) {
             return response.json();
         }
-
+        
         function parse_data(content) {
         const container = document.getElementById("libros");
     
-        for(let i = 0; i < content.length; i++) {
-            const item = document.createElement("div");
-            item.setAttribute("class", "col-6 col-md-4 col-lg-3 col-xl-2");
-        
-            const imagen = document.createElement("img");
-            imagen.setAttribute("class", "card-img-top");
-            imagen.setAttribute("src", content[i].imagen);
-            imagen.setAttribute("style", "max-height: 200px;"); // Establecer altura máxima para la imagen
-        
-            const carta = document.createElement("a");
-            carta.setAttribute("class", "card text-decoration-none");
-            carta.classList.add("card-custom");
-            carta.setAttribute("style", "max-height: 250px; overflow: hidden;"); // Establecer altura máxima y ocultar contenido excedente
-            carta.setAttribute("href", "/libro?id=" + content[i].id);
+            for(let i = 0; i < content.length; i++) {
+                const libro = document.createElement("div");
+                libro.setAttribute("class", "col-6 col-md-4 col-lg-3 col-xl-2");
+            
+                const imagen = document.createElement("img");
+                imagen.setAttribute("class", "card-img-top");
+                imagen.setAttribute("src", content[i].imagen);
+                //imagen.setAttribute("style", "max-height: 200px;"); // Establecer altura máxima para la imagen
+            
+                const carta = document.createElement("a");
+                carta.setAttribute("class", "card text-decoration-none");
+                carta.classList.add("card-custom");
+                carta.setAttribute("style", "overflow: hidden;"); // Establecer altura máxima y ocultar contenido excedente
+                carta.setAttribute("href", "/libro?id=" + content[i].id);
 
-            const carta_cuerpo = document.createElement("div");
-            carta_cuerpo.setAttribute("class", "card-body");
-        
-            carta_cuerpo.append(content[i].titulo);
-            carta.append(imagen);
-            carta.append(carta_cuerpo);
-            item.append(carta);
-            container.append(item);
-        }   
+                const carta_cuerpo = document.createElement("div");
+                carta_cuerpo.setAttribute("class", "card-body");
+            
+                carta_cuerpo.append(content[i].titulo);
+                carta.append(imagen);
+                carta.append(carta_cuerpo);
+                libro.append(carta);
+                container.append(libro);
+            }   
         }
 
         function request_error(error) {
