@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from time import sleep
-from models import db, Libros, Autores, Categorias
+from models import db, Libro, Autor, Categoria
 from inicializar_db import initialize_database
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def libros_populares():
 @app.route('/libros/', methods=['GET'])
 def obtener_libros():
     try:
-        libros = Libros.query.order_by(Libros.id).all()
+        libros = Libro.query.order_by(Libro.id).all()
         libros_data = []
         for libro in libros:
             libro_data = {
@@ -36,6 +36,8 @@ def obtener_libros():
     except Exception as error:
         print('Error:', error)
         return jsonify({'mensaje': 'Error interno del servidor'}), 500
+
+
 
 #if __name__ == '__main__':
 #    app.run(host='0.0.0.0', debug=True, port=port)
