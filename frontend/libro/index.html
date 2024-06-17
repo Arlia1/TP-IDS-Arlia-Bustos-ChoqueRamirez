@@ -53,7 +53,7 @@
                     <div class="card-footer d-flex justify-content-between">
                         <a href="http://localhost:8000/libros/" class="btn btn-warning">Volver</a>
                         <a id="edit-btn" href="/editar" class="btn btn-info">Editar</a>
-                        <button class="btn btn-danger" onclick="">Eliminar</button>
+                        <button class="btn btn-danger" onclick="eliminar_libro()">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -100,6 +100,31 @@
             .then(response_received)
             .then(parse_data)
             .catch(handle_error)
+
+        //Aca empieza la logica de borrar libro
+        function delete_response(data) {
+            if (data.success) {
+                alert("El libro se elimino correctamente")
+                window.location.href = "/libros/";
+            } else {
+                alert("Ocurrio un error, intenta de nuevo")
+            }
+        }
+
+        function eliminar_libro() {
+            const confirmacion = confirm(`Seguro que queres eliminar el libro ${id}?`)
+            if (!confirmacion) {
+                return;
+            }
+
+            fetch(
+                `http://localhost:5000/libros/${id}`,
+                { method: "DELETE" }
+            )
+                .then((res) => res.json()) // === response_received
+                .then(delete_response)
+                .catch(handle_error)
+        }
     </script>
 </body>
 </html>
