@@ -33,11 +33,32 @@ def obtener_libros():
             }
             libros_data.append(libro_data)
         return jsonify(libros_data)
-    except Exception as error:
-        print('Error:', error)
+    except:
         return jsonify({'mensaje': 'Error interno del servidor'}), 500
 
+@app.route("/libros/<id>", methods=['GET'])
+def libro_por_id(id):
+    try:
+        #Aca realizo un join entre libro, autor y categoria, y lo filtro por el id del libro
+        libro_info = db.session.query(Libro, Autor, Categoria).\
+            join(Autor, Libro.autor_id == Autor.id).\
+            join(Categoria, Libro.categoria_id == Categoria.id).\
+            filter(Libro.id == id).\
+            first()
 
+        libro, autor, categoria = libro_info
+        libro_data = []
+        libro_data = {
+            'id': libro.id,
+            'titulo': libro.titulo,
+            'categoria': categoria.nombre,
+            'autor': autor.nombre,
+            'fecha_publicacion': libro.fecha_de_publicacion.strftime('%Y-%m-%d'),
+            'imagen': libro.imagen
+        }
+        return jsonify(libro_data)
+    except:
+        return jsonify({"mensaje": "Error al obtener el libro"}), 500
 
 #if __name__ == '__main__':
 #    app.run(host='0.0.0.0', debug=True, port=port)
