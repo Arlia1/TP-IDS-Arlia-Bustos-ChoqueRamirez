@@ -10,9 +10,6 @@ port = 5000
 app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://postgres:postgres@localhost:5432/tp1'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
-#initialize_database(app)
-#DESCOMENTAR ESTO PARA CARGAR BASE DE DATOS
-
 @app.route("/")
 def libros_populares():
     return "Hola mundo!"
@@ -116,12 +113,13 @@ def eliminar_libro_por_id(id):
     except:
         return jsonify({"success": False, "mensaje": "Error interno del servidor"}), 500
 
-#if __name__ == '__main__':
-#    app.run(host='0.0.0.0', debug=True, port=port)
-#DESCOMENTAR ESTO Y COMENTAR LO DE ABAJO PARA CARGAR BASE DE DATOS
 
 if __name__ == '__main__':
     db.init_app(app)
     with app.app_context():
         db.create_all()
+        
+    """ initialize_database(app)
+    #DESCOMENTAR ESTO Y PARA CARGAR BASE DE DATOS
+     """
     app.run(host='0.0.0.0', debug=True, port=port)
