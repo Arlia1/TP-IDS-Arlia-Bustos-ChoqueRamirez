@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class Libros(db.Model):
+class Libro(db.Model):
     __tablename__ = 'libros'
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(255), nullable=False)
@@ -12,15 +12,14 @@ class Libros(db.Model):
     fecha_de_publicacion = db.Column(db.DateTime, default=datetime.datetime.now)
     imagen = db.Column(db.String(255), nullable=False)
 
-class Autores(db.Model):
+class Autor(db.Model):
     __tablename__ = 'autores'
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
-    edad = db.Column(db.Integer, nullable=False)
-    libros = db.relationship("Libros", backref="autor")
+    libros = db.relationship("Libro", backref="autor")
 
-class Categorias(db.Model):
+class Categoria(db.Model):
     __tablename__ = 'categorias'
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
-    libros = db.relationship("Libros", backref="categoria")
+    libros = db.relationship("Libro", backref="categoria")
