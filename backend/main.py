@@ -60,6 +60,48 @@ def libro_por_id(id):
     except:
         return jsonify({"mensaje": "Error al obtener el libro"}), 500
 
+@app.route("/libros/", methods=['POST'])
+def agregar_libro():
+    try:
+        data = request.json
+        nuevo_titulo = data.get('titulo')
+        nuevo_categoria_nombre = data.get('categoria')
+        nuevo_autor_nombre = data.get('autor')
+        nueva_imagen = data.get('imagen')
+
+        # Aca busco la categoria existente
+        categoria = Categoria.query.filter_by(nombre=nuevo_categoria_nombre).first()
+        #Si no hay, creo una categoria en la tabla categorias
+        if not categoria:
+            categoria = Categoria(nombre=nuevo_categoria_nombre)
+            db.session.add(categoria)
+            db.session.commit()
+
+        # Aca busco el autor existente
+        autor = Autor.query.filter_by(nombre=nuevo_autor_nombre).first()
+        #si no hay, creo uno nuevo en la tabla autores
+        if not autor:
+            autor = Autor(nombre=nuevo_autor_nombre)
+            db.session.add(autor)
+            db.session.commit()
+
+        # Y por ultimo creo el libro
+        nuevo_libro = Libro(titulo=nuevo_titulo, categoria_id=categoria.id, autor_id=autor.id, imagen=nueva_imagen)
+        db.session.add(nuevo_libro)
+        db.session.commit()
+
+        return jsonify({
+            'libro': {
+                'id': nuevo_libro.id,
+                'titulo': nuevo_libro.titulo,
+                'categoria': nuevo_libro.categoria.nombre,
+                'autor': nuevo_libro.autor.nombre,
+                'imagen': nuevo_libro.imagen
+            }
+        }), 201
+    except:
+        return jsonify({'mensaje': 'Error al agregar libro'}), 500
+
 
 @app.route("/libros/<id>", methods=["DELETE"])
 def eliminar_libro_por_id(id):
