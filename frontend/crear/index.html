@@ -41,25 +41,16 @@
                                 <input type="text" class="form-control" id="autor" name="autor" placeholder="Antoine de Saint-Exupéry" required>
                             </div>
                             <div class="mb-4">
-                            <label for="categoria" class="mb-2 me-3">Categoria:</label>
-                            <input type="text" class="form-control" id="categoria" name="categoria" placeholder="Suspenso" required>
-                            <!--
-                            <select for="gender" id="gender" name="gender" class="form-select"required>
-                                <option selected>Seleccione un género</option>
-                                <option value="ficcion">Ficción</option>
-                                <option value="misterio-suspenso">Misterio/Suspenso</option>
-                                <option value="romance">Romance</option>
-                                <option value="ciencia-ficción">Ciencia ficción</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                            -->
+                                <label for="categoria" class="form-label">Categoría</label>
+                                <select id="categoria" name="categoria" class="form-select" required>
+                                    <option selected disabled>Seleccione un género</option>
+                                    <option value="ficcion">Ficción</option>
+                                    <option value="misterio-suspenso">Misterio/Suspenso</option>
+                                    <option value="romance">Romance</option>
+                                    <option value="ciencia-ficcion">Ciencia ficción</option>
+                                    <option value="otro">Otro</option>
+                                </select>
                             </div>
-                            <!--
-                            <div class="mb-4">
-                                <label for="date-publication" class="form-label">Fecha de Publicación</label>
-                                <input type="date" class="form-control" id="date-publication" name="date-publication" placeholder="--/--/----" required>
-                            </div>
-                            -->
                             <div class="mb-4">
                                 <label for="imagen" class="form-label">Imágen</label>
                                 <input type="text" class="form-control" id="imagen" name="imagen" placeholder="Coloque URL de la imagen" required>
@@ -88,7 +79,7 @@
             }
         }
 
-        function agregar_libro(event){ //event --> submit
+        function agregar_libro(event){ // event --> submit
             event.preventDefault()
 
             const formData = new FormData(event.target)
