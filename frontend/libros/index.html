@@ -22,6 +22,14 @@
             color: white;
         }
 
+        .small-text {
+            font-size: 0.9rem; /* Ajusta el tamaño según tus necesidades */
+        }
+
+        .custom-padding {
+        padding: 9px; /* Ajusta el padding según tus necesidades */
+        }
+
     </style>
 </head>
 <body>
@@ -35,6 +43,7 @@
             <hr class="my-4 bg-light">
             <p>Si quieres, puedes seleccionar alguno para: ver, editar o eliminar ese libro...</p>
             <p>O también puedes agregar tu propio libro!</p>
+            <a href="/crear" class="btn btn-success">Agregar Libro</a>
             <br>
             <br>
             <div class="container">
@@ -44,7 +53,6 @@
             </div>
             <br>
             <br>
-            <a href="/crear" class="btn btn-success">Agregar Libro</a>
         </div>
     </div>
     <div class="container mt-4">
@@ -71,16 +79,16 @@
                 const imagen = document.createElement("img");
                 imagen.setAttribute("class", "card-img-top");
                 imagen.setAttribute("src", content[i].imagen);
-                //imagen.setAttribute("style", "max-height: 200px;"); // Establecer altura máxima para la imagen
+                imagen.setAttribute("style", "max-height: 200px;"); // Establecer altura máxima para la imagen
             
                 const carta = document.createElement("a");
-                carta.setAttribute("class", "card text-decoration-none");
-                carta.classList.add("card-custom");
+                carta.setAttribute("class", "card text-decoration-none card-custom");
+                //carta.classList.add("card-custom");
                 carta.setAttribute("style", "overflow: hidden;"); // Establecer altura máxima y ocultar contenido excedente
                 carta.setAttribute("href", "/libro?id=" + content[i].id);
 
                 const carta_cuerpo = document.createElement("div");
-                carta_cuerpo.setAttribute("class", "card-body");
+                carta_cuerpo.setAttribute("class", "card-body small-text custom-padding");
             
                 carta_cuerpo.append(content[i].titulo);
                 carta.append(imagen);

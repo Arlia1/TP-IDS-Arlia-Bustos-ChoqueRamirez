@@ -29,23 +29,23 @@
             <div class="col-12 col-md-8 mx-auto">
                 <div class="card">
                     <div class="card-body text-white">
-                        <!--<span id="loading-message">Loading...</span>-->
+                        <span id="loading-message">Loading...</span>
                         <div class="row">
                             <div class="col-6 my-auto mx-auto">
-                                <img src="" alt="" class="w-100" id="imagen">
+                                <img src="" alt="" class="" id="imagen">
                             </div>
                             <div class="col-4 my-auto mx-auto text-center">
-                                <h4>Titulo:</h4>
-                                <h3 id="titulo"></h3>
+                                <h5>Titulo:</h5>
+                                <h6 id="titulo"></h6>
                                 <br>
-                                <h4>Autor:</h4>
-                                <h5 id="autor"></h5>
+                                <h5>Autor:</h5>
+                                <h6 id="autor"></h6>
                                 <br>
-                                <h4>Categoria:</h4>
-                                <h5 id="categoria"></h5>
+                                <h5>Categoria:</h5>
+                                <h6 id="categoria"></h6>
                                 <br>
-                                <h4>Fecha de Publicación:</h4>
-                                <h5 id="fecha_publicacion"></h5>
+                                <h5>Fecha de Publicación:</h5>
+                                <h6 id="fecha_publicacion"></h6>
                                 <br>
                             </div>
                         </div>
@@ -75,12 +75,17 @@
         }
 
         function parse_data(libro){
+            const loading_message = document.getElementById("loading-message");
+            loading_message.remove();
+
             const titulo = document.getElementById("titulo")
             titulo.innerText = libro.titulo
 
             const imagen = document.getElementById("imagen")
             imagen.setAttribute("src", libro.imagen)
-
+            //imagen.classList.add("img-thumbnail")
+            imagen.setAttribute("class", "img-fluid img-thumbnail");
+            
             const categoria = document.getElementById("categoria")
             categoria.innerText = `${libro.categoria}`
 
