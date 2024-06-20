@@ -65,6 +65,7 @@ def agregar_libro():
         nuevo_titulo = data.get('titulo')
         nuevo_categoria_nombre = data.get('categoria')
         nuevo_autor_nombre = data.get('autor')
+        nueva_fecha_publicacion = data.get('fecha_de_publicacion')
         nueva_imagen = data.get('imagen')
 
         # Aca busco la categoria existente
@@ -84,7 +85,7 @@ def agregar_libro():
             db.session.commit()
 
         # Y por ultimo creo el libro
-        nuevo_libro = Libro(titulo=nuevo_titulo, categoria_id=categoria.id, autor_id=autor.id, imagen=nueva_imagen)
+        nuevo_libro = Libro(titulo=nuevo_titulo, categoria_id=categoria.id, autor_id=autor.id, fecha_de_publicacion=nueva_fecha_publicacion ,imagen=nueva_imagen)
         db.session.add(nuevo_libro)
         db.session.commit()
 
@@ -119,7 +120,6 @@ if __name__ == '__main__':
     db.init_app(app)
     with app.app_context():
         db.create_all()
-        
     """ initialize_database(app)
     #DESCOMENTAR ESTO Y PARA CARGAR BASE DE DATOS
      """
