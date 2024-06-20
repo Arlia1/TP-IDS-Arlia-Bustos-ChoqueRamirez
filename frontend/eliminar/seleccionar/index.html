@@ -101,6 +101,30 @@
             .then(response_received)
             .then(parse_data)
             .catch(request_error);
+
+        function delete_response(data) {
+            if (data.success) {
+                alert("El libro se elimino correctamente")
+                window.location.href = "/eliminar/seleccionar";
+            } else {
+                alert("Ocurrio un error, intenta de nuevo")
+            }
+        }
+
+        function eliminar_libro(id) {
+            const confirmacion = confirm(`Seguro que queres eliminar el libro ${id}?`)
+            if (!confirmacion) {
+                return;
+            }
+
+            fetch(
+                `http://localhost:5000/libros/${id}`,
+                { method: "DELETE" }
+            )
+                .then((res) => res.json())
+                .then(delete_response)
+                .catch(handle_error)
+        }
     </script>
 </body>
 </html>
