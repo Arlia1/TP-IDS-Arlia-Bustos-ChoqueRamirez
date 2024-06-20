@@ -75,11 +75,10 @@
                 imagen.setAttribute("src", content[i].imagen);
                 imagen.setAttribute("style", "max-height: 200px;");
 
-                const carta = document.createElement("a");
+                const carta = document.createElement("div");
                 carta.setAttribute("class", "card text-decoration-none card-custom");
 
                 carta.setAttribute("style", "overflow: hidden;");
-                carta.setAttribute("button", "/libro?id=" + content[i].id);
 
                 const carta_cuerpo = document.createElement("button");
                 carta_cuerpo.setAttribute("class", "btn btn-danger");
