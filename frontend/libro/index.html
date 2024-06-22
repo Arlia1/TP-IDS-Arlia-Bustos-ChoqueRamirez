@@ -94,6 +94,9 @@
 
             const fecha_publicacion = document.getElementById("fecha_publicacion")
             fecha_publicacion.innerText = `${libro.fecha_publicacion}`
+
+            const edit_btn = document.getElementById("edit-btn")
+            edit_btn.href = `/editar?id=${id}`
         }
 
         function handle_error(error){
@@ -130,6 +133,8 @@
                 .then(delete_response)
                 .catch(handle_error)
         }
+
+       
     </script>
 </body>
 </html>

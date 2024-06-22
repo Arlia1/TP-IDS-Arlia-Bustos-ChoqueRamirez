@@ -17,6 +17,10 @@
             color: white;
         }
 
+        .container {
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -28,11 +32,74 @@
             <h1 class="display-5">Selecciona el libro</h1>
             <hr class="my-4 bg-light">
             <p class="lead">- elige el libro que deseas EDITAR de nuestra colección -</p>
+                <br>
+                <br>
+                <div class="container">
+                    <div class="row" id="libros">
+
+                    </div>
+                </div>
+                <br>
+                <br>
         </div>
     </div>
-    <a href="/editar?id=" class="btn btn-info btn-centre">Editar</a>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search)
+        const id = params.get("id")
+
+        function response_received(response) {
+            return response.json();
+        }
+
+        function parse_data(content) {
+        const container = document.getElementById("libros");
+
+            for(let i = 0; i < content.length; i++) {
+                const libro = document.createElement("div");
+                libro.setAttribute("class", "col-6 col-md-4 col-lg-3 col-xl-2");
+
+                const imagen = document.createElement("img");
+                imagen.setAttribute("class", "card-img-top");
+                imagen.setAttribute("src", content[i].imagen);
+                imagen.setAttribute("style", "max-height: 200px;");
+
+                const carta = document.createElement("div");
+                carta.setAttribute("class", "card text-decoration-none card-custom");
+
+                carta.setAttribute("style", "overflow: hidden;");
+
+                const carta_cuerpo = document.createElement("button");
+                carta_cuerpo.setAttribute("class", "btn btn-info");
+                carta_cuerpo.setAttribute("onclick", `editar_libro(${content[i].id}, "${content[i].titulo}")`)
+
+                carta_cuerpo.append(content[i].titulo);
+                carta.append(imagen);
+                carta.append(carta_cuerpo);
+                libro.append(carta);
+                container.append(libro);
+            }
+        }
+
+        function handle_error(error) {
+            console.log("ERROR");
+            console.log(error);
+        }
+
+        fetch("http://localhost:5000/libros/")
+            .then(response_received)
+            .then(parse_data)
+            .catch(request_error);
+
+        function editar_libro(id, titulo) {
+            const confirmacion = confirm(`Seguro que queres editar el libro ${titulo}?`)
+            if (!confirmacion) {
+                return;
+            }
+            window.location.href = `/editar?id=${id}`
+        }
+    </script>
 </body>
 </html>

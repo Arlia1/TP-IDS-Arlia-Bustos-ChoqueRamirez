@@ -4,6 +4,7 @@ from time import sleep
 from models import db, Libro, Autor, Categoria
 from inicializar_db import initialize_database
 
+
 app = Flask(__name__)
 CORS(app)
 port = 5000
@@ -115,6 +116,60 @@ def eliminar_libro_por_id(id):
     except:
         return jsonify({"success": False, "mensaje": "Error interno del servidor"}), 500
 
+@app.route("/libros/<id>", methods=["PUT"])
+def editar_libro_por_id(id):
+    try:
+        data = request.json
+        nuevo_titulo = data.get('titulo')
+        nuevo_categoria_nombre = data.get('categoria')
+        nuevo_autor_nombre = data.get('autor')
+        nueva_fecha_publicacion = data.get('fecha_de_publicacion')
+        nueva_imagen = data.get('imagen')
+        print(f"{nuevo_categoria_nombre}")
+        libro = Libro.query.filter_by(id=id).first()
+        if libro:
+            # Actualizar el título del libro si se proporciona
+            if nuevo_titulo:
+                libro.titulo = nuevo_titulo
+            # Actualizar la categoría del libro si se proporciona
+            if nuevo_categoria_nombre:
+                categoria = Categoria.query.filter_by(nombre=nuevo_categoria_nombre).first()
+                if not categoria:
+                    categoria = Categoria(nombre=nuevo_categoria_nombre)
+                    db.session.add(categoria)
+                    db.session.commit()
+                libro.categoria_id = categoria.id
+            # Actualizar el autor del libro si se proporciona
+            if nuevo_autor_nombre:
+                autor = Autor.query.filter_by(nombre=nuevo_autor_nombre).first()
+                if not autor:
+                    autor = Autor(nombre=nuevo_autor_nombre)
+                    db.session.add(autor)
+                    db.session.commit()
+                libro.autor_id = autor.id
+            # Actualizar la fecha de publicación del libro si se proporciona
+            if nueva_fecha_publicacion:
+                libro.fecha_de_publicacion = nueva_fecha_publicacion
+            # Actualizar la imagen del libro si se proporciona
+            if nueva_imagen:
+                libro.imagen = nueva_imagen
+            
+            db.session.commit()
+            
+            return jsonify({
+                'libro': {
+                    'id': libro.id,
+                    'titulo': libro.titulo,
+                    'categoria': libro.categoria.nombre,
+                    'autor': libro.autor.nombre,
+                    'fecha_publicacion': libro.fecha_de_publicacion.strftime('%Y-%m-%d'),
+                    'imagen': libro.imagen
+                }
+            }), 200
+        else:
+            return jsonify({"mensaje": f"No se encontró un libro con id {id}"}), 404
+    except:
+        return jsonify({"mensaje": "Error al editar el libro"}), 500
 
 if __name__ == '__main__':
     db.init_app(app)
