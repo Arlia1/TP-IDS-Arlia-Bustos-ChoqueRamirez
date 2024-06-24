@@ -44,8 +44,16 @@
             <p>Si quieres, puedes seleccionar alguno para: ver, editar o eliminar ese libro...</p>
             <p>O también puedes agregar tu propio libro!</p>
             <a href="/crear" class="btn btn-success">Agregar Libro</a>
-            <br>
-            <br>
+            <br><br>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" onclick="mostrar_todos()">Todos</button>
+                <button type="button" class="btn btn-primary" onclick="filtrar_por_categoria(1)">Ciencia Ficción</button>
+                <button type="button" class="btn btn-primary" onclick="filtrar_por_categoria(2)">Romance</button>
+                <button type="button" class="btn btn-primary" onclick="filtrar_por_categoria(3)">Misterio/suspenso</button>
+                <button type="button" class="btn btn-primary" onclick="filtrar_por_categoria(4)">Otro</button>
+                <button type="button" class="btn btn-primary" onclick="filtrar_por_categoria(5)">Ficcion</button>
+            </div>
+            <br><br>
             <div class="container">
                 <div class="row" id="libros">
                     
@@ -68,9 +76,14 @@
         function response_received(response) {
             return response.json();
         }
+
+        function actualizar_libros() {
+            const container = document.getElementById("libros");
+            container.innerHTML = "";
+        }
         
         function parse_data(content) {
-        const container = document.getElementById("libros");
+            const container = document.getElementById("libros");
     
             for(let i = 0; i < content.length; i++) {
                 const libro = document.createElement("div");
@@ -103,10 +116,28 @@
             console.log(error);
         }
 
-        fetch("http://localhost:5000/libros/")
-            .then(response_received)
-            .then(parse_data)
-            .catch(request_error);
+        function cargar_libros() {
+            fetch("http://localhost:5000/libros/")
+                .then(response_received)
+                .then(parse_data)
+                .catch(request_error);
+        }
+
+        function filtrar_por_categoria(categoria_id) {
+            actualizar_libros();
+
+            fetch(`http://localhost:5000/libros/categoria/${categoria_id}`)
+                .then(response_received)
+                .then(parse_data)
+                .catch(request_error);
+        }
+
+        function mostrar_todos() {
+            actualizar_libros();
+            cargar_libros();
+        }
+
+        cargar_libros();
 
     </script>
 </body>
