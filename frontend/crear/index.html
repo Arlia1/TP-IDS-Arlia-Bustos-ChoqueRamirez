@@ -52,6 +52,10 @@
                                 </select>
                             </div>
                             <div class="mb-4">
+                                <label for="fecha_publicacion" class="form-label">Fecha de Publicacion</label>
+                                <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion" required>
+                            </div>
+                            <div class="mb-4">
                                 <label for="imagen" class="form-label">Imágen</label>
                                 <input type="text" class="form-control" id="imagen" name="imagen" placeholder="Coloque URL de la imagen" required>
                             </div>
@@ -87,6 +91,7 @@
             const titulo = formData.get("titulo");
             const autor = formData.get("autor");
             const categoria = formData.get("categoria");
+            const fecha_publicacion = formData.get("fecha_publicacion")
             const imagen = formData.get("imagen");
 
             fetch("http://localhost:5000/libros/", {
@@ -97,6 +102,7 @@
                 body: JSON.stringify({
                     titulo: titulo,
                     categoria: categoria,
+                    fecha_de_publicacion: fecha_publicacion,
                     autor: autor,
                     imagen: imagen
                 })
