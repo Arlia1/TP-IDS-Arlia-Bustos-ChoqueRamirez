@@ -34,6 +34,25 @@ def obtener_libros():
     except:
         return jsonify({'mensaje': 'Error interno del servidor'}), 500
 
+@app.route("/libros/categoria/<int:categoria_id>", methods=['GET'])
+def obtener_libros_por_categoria(categoria_id):
+    try:
+        libros = Libro.query.filter_by(categoria_id=categoria_id).all()
+        libros_data = []
+        for libro in libros:
+            libro_data = {
+                'id': libro.id,
+                'titulo': libro.titulo,
+                'autor_id': libro.autor_id,
+                'categoria_id': libro.categoria_id,
+                'fecha_de_publicacion': libro.fecha_de_publicacion.strftime("%Y-%m-%d"),
+                'imagen': libro.imagen
+            }
+            libros_data.append(libro_data)
+        return jsonify(libros_data)
+    except:
+        return jsonify({'mensaje': 'Error interno del servidor'}), 500
+
 @app.route("/libros/<id>", methods=['GET'])
 def libro_por_id(id):
     sleep(2)
