@@ -3,7 +3,7 @@ from flask_cors import CORS
 from time import sleep
 from models import db, Libro, Autor, Categoria
 from inicializar_db import initialize_database
-
+import sys
 
 app = Flask(__name__)
 CORS(app)
@@ -198,7 +198,9 @@ if __name__ == '__main__':
     db.init_app(app)
     with app.app_context():
         db.create_all()
-    """ initialize_database(app)
-    #DESCOMENTAR ESTO Y PARA CARGAR BASE DE DATOS
-     """
+
+    if len(sys.argv) > 1:
+        if (sys.argv[1] == "--init"):
+            initialize_database(app)
+    
     app.run(host='0.0.0.0', debug=True, port=port)
