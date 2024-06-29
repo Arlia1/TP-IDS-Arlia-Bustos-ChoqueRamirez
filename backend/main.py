@@ -140,12 +140,16 @@ def editar_libro_por_id(id):
     try:
         data = request.json
         nuevo_titulo = data.get('titulo')
-        nuevo_categoria_nombre = data.get('categoria')
         nuevo_autor_nombre = data.get('autor')
-        nueva_fecha_publicacion = data.get('fecha_de_publicacion')
+        
+        nuevo_categoria_nombre = data.get('categoria')
+        
+        nueva_fecha_publicacion = data.get('fecha_publicacion')
+        
         nueva_imagen = data.get('imagen')
-        print(f"{nuevo_categoria_nombre}")
+        
         libro = Libro.query.filter_by(id=id).first()
+        
         if libro:
             # Actualizar el título del libro si se proporciona
             if nuevo_titulo:

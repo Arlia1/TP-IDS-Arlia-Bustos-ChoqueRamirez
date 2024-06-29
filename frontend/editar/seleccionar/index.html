@@ -102,7 +102,7 @@
         fetch("http://localhost:5000/libros/")
             .then(response_received)
             .then(parse_data)
-            .catch(request_error);
+            .catch(handle_error);
 
     </script>
 </body>

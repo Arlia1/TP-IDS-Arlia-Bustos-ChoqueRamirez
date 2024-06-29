@@ -38,18 +38,18 @@
                     <div class="card-body text-white">
                         <h2 class="card-title text-center">Editar Libro</h2>
                         <img src="../img/editar-libro.png" class="small-img d-block mx-auto" alt="imagen editar libro">
-                        <form></form>
+                        <form onsubmit="editarLibro(event)" method="put">
                             <div class="mb-4">
-                                <label for="name" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="name" name="name" value="" required>
+                                <label for="titulo" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="titulo" name="titulo" value="" required>
                             </div>
                             <div class="mb-4">
-                                <label for="author" class="form-label">Autor</label>
-                                <input type="text" class="form-control" id="author" name="author" value="" required>
+                                <label for="autor" class="form-label">Autor</label>
+                                <input type="text" class="form-control" id="autor" name="autor" value="" required>
                             </div>
                             <div class="mb-4">
                             <label class="mb-2 me-3">Género:</label>
-                            <select for="gender" id="gender" name="gender" class="form-select"  required>
+                            <select for="categoria" id="categoria" name="categoria" class="form-select"  required>
                                 <option value="null">Seleccione un género</option>
                                 <option value="Ficción">Ficción</option>
                                 <option value="Misterio/Suspenso">Misterio/Suspenso</option>
@@ -57,21 +57,18 @@
                                 <option value="Ciencia ficción">Ciencia ficción</option>
                                 <option value="Otro">Otro</option>
                             </select>
-                            </select>
-                            </select>
-                            </select>
                             </div>
                             <div class="mb-4">
-                                <label for="date-publication" class="form-label">Fecha de Publicación</label>
-                                <input type="date" class="form-control" id="date-publication" name="date-publication" value="" required>
+                                <label for="fecha_publicacion" class="form-label">Fecha de Publicación</label>
+                                <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion"  required>
                             </div>
                             <div class="mb-4">
-                                <label for="image" class="form-label">Imágen</label>
-                                <input type="text" class="form-control" id="image" name="image" value="" required>
+                                <label for="imagen" class="form-label">Imágen</label>
+                                <input type="text" class="form-control" id="imagen" name="imagen" value="" required>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <a href="/editar/seleccionar" class="btn btn-warning">Atrás</a>
-                                <button class="btn btn-info" id="btn-edit" >Editar</button>
+                                <button class="btn btn-info" sumbit id="btn-edit">Editar</button>
                             </div>
                         </form>
                     </div>
@@ -85,10 +82,10 @@
     <script>
         const params = new URLSearchParams(window.location.search)
         const id = params.get("id")
-        
+        console.log(id)
 
         if (id === null) {
-            window.location.href = "/"; //esto salta si la direccion es: editar/ o algo invalido
+           window.location.href = "/"; //esto salta si la direccion es: editar/ o algo invalido
         }
 
         function response_received(response) {
@@ -97,23 +94,22 @@
         
         function parse_data(libro){
             console.log(libro)
-            const name = document.getElementById("name")
-            name.value = libro.titulo
 
-            const author = document.getElementById("author")
-            author.value = libro.autor
+            const titulo = document.getElementById("titulo")
+            titulo.value = libro.titulo
 
-            const genero = document.getElementById("gender")
-            genero.value = libro.categoria
+            const autor = document.getElementById("autor")
+            autor.value = libro.autor
 
-            const button = document.getElementById("btn-edit")
-            button.setAttribute("onclick", `editarLibro(${id}, "${libro.titulo}")`)
+            const categoria = document.getElementById("categoria")
+            categoria.value = libro.categoria
+            
+            const fecha_publicacion = document.getElementById("fecha_publicacion");
+            fecha_publicacion.value = libro.fecha_publicacion;
+            
+            const imagen = document.getElementById("imagen");
+            imagen.value = libro.imagen;
 
-            const datePublication = document.getElementById("date-publication");
-            datePublication.value = libro.fecha_publicacion;
-
-            const image = document.getElementById("image");
-            image.value = libro.imagen;
         }
 
         function handle_error_1(error){
@@ -136,27 +132,29 @@
             if (data.libro) {
                 alert("El libro se edito correctamente")
                 console.log(data.libro)
-                window.location.href = "/libro/?id=" + id;
+                window.location.href = "/libros/libro/?id=" + id;
             } else {
                 alert("Ocurrio un error, intenta de nuevo")
             }
         }
     
-        function editarLibro(id, titulo){
+        function editarLibro(event){
             
+            event.preventDefault()
+            const formData = new FormData(event.target)
+            const titulo = formData.get("titulo");
+            const autor = formData.get("autor");
+            const categoria = formData.get("categoria");
+            const fecha_publicacion = formData.get("fecha_publicacion")
+            const imagen = formData.get("imagen");
+
             const confirmacion = confirm(`Seguro que queres editar el libro ${titulo}?`)
             if (!confirmacion) {
                 return;
             }
 
-            const name = document.getElementById("name").value
-            const author = document.getElementById("author").value
-            const gender = document.getElementById("gender").value;
-            console.log(gender);
-            const datePublication = document.getElementById("date-publication").value;
-            const image = document.getElementById("image").value;
             
-            if (name === null || author === null || gender === null || gender === "null" ||datePublication === null || image === null) {
+            if (titulo === null || autor === null || categoria === null || categoria === "null" || fecha_publicacion === null || imagen === null) {
                 alert("Por favor, complete todos los campos");
                 return; 
             }
@@ -167,11 +165,11 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    titulo: name,
-                    autor: author,
-                    categoria: gender,
-                    fecha_publicacion: datePublication,
-                    imagen: image
+                    titulo: titulo,
+                    autor: autor,
+                    categoria: categoria,
+                    fecha_publicacion: fecha_publicacion,
+                    imagen: imagen
                 })
             })
                 .then((res) => res.json())
