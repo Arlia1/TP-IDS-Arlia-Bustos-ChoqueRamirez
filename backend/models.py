@@ -11,6 +11,7 @@ class Libro(db.Model):
     categoria_id = db.Column(db.Integer, db.ForeignKey('categorias.id'))
     fecha_de_publicacion = db.Column(db.DateTime, default=datetime.datetime.now)
     imagen = db.Column(db.Text, nullable=False)
+    imagen = db.Column(db.Text, nullable=False)
 
 class Autor(db.Model):
     __tablename__ = 'autores'
