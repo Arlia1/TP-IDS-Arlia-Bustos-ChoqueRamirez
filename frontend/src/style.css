@@ -51,7 +51,7 @@ body {
 }
 
 
-.container {
+.container:not(nav .container) {
     margin-bottom: 20px;
 }
 
