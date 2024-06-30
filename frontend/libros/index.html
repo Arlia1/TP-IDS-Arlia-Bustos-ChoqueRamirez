@@ -41,81 +41,9 @@
             <br>
         </div>
     </div>
-    <div class="container mt-4">
-        <div id="libros" class="row g-4">
-        </div>
-    </div>
-    <ul id="lista"></ul>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-
-        function response_received(response) {
-            return response.json();
-        }
-
-        function actualizar_libros() {
-            const container = document.getElementById("libros");
-            container.innerHTML = "";
-        }
-        
-        function parse_data(content) {
-            const container = document.getElementById("libros");
-    
-            for(let i = 0; i < content.length; i++) {
-                const libro = document.createElement("div");
-                libro.setAttribute("class", "col-6 col-md-4 col-lg-3 col-xl-2");
-            
-                const imagen = document.createElement("img");
-                imagen.setAttribute("class", "card-img-top");
-                imagen.setAttribute("src", content[i].imagen);
-                imagen.setAttribute("style", "max-height: 200px;"); // Establecer altura máxima para la imagen
-            
-                const carta = document.createElement("a");
-                carta.setAttribute("class", "card text-decoration-none card-custom");
-                carta.setAttribute("style", "overflow: hidden;"); // Establecer altura máxima y ocultar contenido excedente
-                carta.setAttribute("href", "/libros/libro?id=" + content[i].id);
-
-                const carta_cuerpo = document.createElement("div");
-                carta_cuerpo.setAttribute("class", "card-body small-text custom-padding");
-            
-                carta_cuerpo.append(content[i].titulo);
-                carta.append(imagen);
-                carta.append(carta_cuerpo);
-                libro.append(carta);
-                container.append(libro);
-            }   
-        }
-
-        function request_error(error) {
-            console.log("ERROR");
-            console.log(error);
-        }
-
-        function cargar_libros() {
-            fetch("http://localhost:5000/libros/")
-                .then(response_received)
-                .then(parse_data)
-                .catch(request_error);
-        }
-
-        function filtrar_por_categoria(categoria_id) {
-            actualizar_libros();
-
-            fetch(`http://localhost:5000/libros/categoria/${categoria_id}`)
-                .then(response_received)
-                .then(parse_data)
-                .catch(request_error);
-        }
-
-        function mostrar_todos() {
-            actualizar_libros();
-            cargar_libros();
-        }
-
-        cargar_libros();
-
-    </script>
+    <script src="/../src/script.js"></script>
 </body>
 </html>

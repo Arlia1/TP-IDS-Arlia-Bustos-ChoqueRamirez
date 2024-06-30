@@ -38,7 +38,7 @@
                     <div class="card-footer d-flex justify-content-between">
                         <a href="http://localhost:8000/libros/" class="btn btn-warning">Volver</a>
                         <a id="edit-btn" href="/editar" class="btn btn-info">Editar</a>
-                        <button class="btn btn-danger" onclick="eliminar_libro()">Eliminar</button>
+                        <button class="btn btn-danger" id="boton-eliminar">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -46,81 +46,6 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        const params = new URLSearchParams(window.location.search)
-        const id = params.get("id")
-
-        if (id === null) {
-            window.location.href = "/"; //esto salta si la direccion es: libros/
-        }
-
-        //Aca empieza la logica de mostrar los datos del libro
-        function response_received(response){
-            return response.json()
-        }
-
-        function parse_data(libro){
-            const loading_message = document.getElementById("loading-message");
-            loading_message.remove();
-
-            const titulo = document.getElementById("titulo")
-            titulo.innerText = libro.titulo
-
-            const imagen = document.getElementById("imagen")
-            imagen.setAttribute("src", libro.imagen)
-            //imagen.classList.add("img-thumbnail")
-            imagen.setAttribute("class", "img-fluid img-thumbnail");
-            
-            const categoria = document.getElementById("categoria")
-            categoria.innerText = `${libro.categoria}`
-
-            const autor = document.getElementById("autor")
-            autor.innerText = `${libro.autor}`
-
-            const fecha_publicacion = document.getElementById("fecha_publicacion")
-            fecha_publicacion.innerText = `${libro.fecha_publicacion}`
-
-            const edit_btn = document.getElementById("edit-btn")
-            edit_btn.href = `/editar?id=${id}`
-        }
-
-        function handle_error(error){
-            console.log("error", error)
-            alert("No existe ese libro")
-        }
-
-        fetch(`http://localhost:5000/libros/${id}`)
-            .then(response_received)
-            .then(parse_data)
-            .catch(handle_error)
-
-        //Aca empieza la logica de borrar libro
-        function delete_response(data) {
-            if (data.success) {
-                alert("El libro se elimino correctamente")
-                window.location.href = "/libros/";
-            } else {
-                alert("Ocurrio un error, intenta de nuevo")
-            }
-        }
-
-        function eliminar_libro() {
-            const confirmacion = confirm(`Seguro que queres eliminar el libro ${id}?`)
-            if (!confirmacion) {
-                return;
-            }
-
-            fetch(
-                `http://localhost:5000/libros/${id}`,
-                { method: "DELETE" }
-            )
-                .then((res) => res.json()) // === response_received
-                .then(delete_response)
-                .catch(handle_error)
-        }
-
-       
-    </script>
-</body>
+    <script src="/../../src/script.js"></script>
 </html>
     
