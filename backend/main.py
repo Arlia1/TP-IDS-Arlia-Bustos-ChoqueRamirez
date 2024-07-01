@@ -55,7 +55,7 @@ def obtener_libros_por_categoria(categoria_id):
 
 @app.route("/libros/<id>", methods=['GET'])
 def libro_por_id(id):
-    sleep(2)
+    sleep(1.5)
     try:
         #Aca realizo un join entre libro, autor y categoria, y lo filtro por el id del libro
         libro_info = db.session.query(Libro, Autor, Categoria).\
