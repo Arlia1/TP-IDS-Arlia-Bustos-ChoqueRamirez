@@ -57,7 +57,6 @@ def obtener_libros_por_categoria(categoria_id):
 def libro_por_id(id):
     sleep(1.5)
     try:
-        #Aca realizo un join entre libro, autor y categoria, y lo filtro por el id del libro
         libro_info = db.session.query(Libro, Autor, Categoria).\
             join(Autor, Libro.autor_id == Autor.id).\
             join(Categoria, Libro.categoria_id == Categoria.id).\
@@ -88,23 +87,23 @@ def agregar_libro():
         nueva_fecha_publicacion = data.get('fecha_de_publicacion')
         nueva_imagen = data.get('imagen')
 
-        # Aca busco la categoria existente
+        
         categoria = Categoria.query.filter_by(nombre=nuevo_categoria_nombre).first()
-        #Si no hay, creo una categoria en la tabla categorias
+        
         if not categoria:
             categoria = Categoria(nombre=nuevo_categoria_nombre)
             db.session.add(categoria)
             db.session.commit()
 
-        # Aca busco el autor existente
+        
         autor = Autor.query.filter_by(nombre=nuevo_autor_nombre).first()
-        #si no hay, creo uno nuevo en la tabla autores
+        
         if not autor:
             autor = Autor(nombre=nuevo_autor_nombre)
             db.session.add(autor)
             db.session.commit()
 
-        # Y por ultimo creo el libro
+        
         nuevo_libro = Libro(titulo=nuevo_titulo, categoria_id=categoria.id, autor_id=autor.id, fecha_de_publicacion=nueva_fecha_publicacion ,imagen=nueva_imagen)
         db.session.add(nuevo_libro)
         db.session.commit()
@@ -151,10 +150,10 @@ def editar_libro_por_id(id):
         libro = Libro.query.filter_by(id=id).first()
         
         if libro:
-            # Actualizar el título del libro si se proporciona
+            
             if nuevo_titulo:
                 libro.titulo = nuevo_titulo
-            # Actualizar la categoría del libro si se proporciona
+            
             if nuevo_categoria_nombre:
                 categoria = Categoria.query.filter_by(nombre=nuevo_categoria_nombre).first()
                 if not categoria:
@@ -162,7 +161,7 @@ def editar_libro_por_id(id):
                     db.session.add(categoria)
                     db.session.commit()
                 libro.categoria_id = categoria.id
-            # Actualizar el autor del libro si se proporciona
+            
             if nuevo_autor_nombre:
                 autor = Autor.query.filter_by(nombre=nuevo_autor_nombre).first()
                 if not autor:
@@ -170,10 +169,10 @@ def editar_libro_por_id(id):
                     db.session.add(autor)
                     db.session.commit()
                 libro.autor_id = autor.id
-            # Actualizar la fecha de publicación del libro si se proporciona
+           
             if nueva_fecha_publicacion:
                 libro.fecha_de_publicacion = nueva_fecha_publicacion
-            # Actualizar la imagen del libro si se proporciona
+            
             if nueva_imagen:
                 libro.imagen = nueva_imagen
             
