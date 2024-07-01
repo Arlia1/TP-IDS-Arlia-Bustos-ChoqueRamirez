@@ -127,6 +127,11 @@ function delete_response(data) {
     }
 }
 
+function handle_error_eleminar_libro(error){
+    console.log("ERROR", error);
+    alert("Ocurrió un error al eliminar libro");
+}
+
 function eliminar_libro(id, titulo) {
     const confirmacion = confirm(`Seguro que queres eliminar el libro ${titulo}?`)
     if (!confirmacion) {
