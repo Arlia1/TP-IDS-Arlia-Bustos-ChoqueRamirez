@@ -145,6 +145,7 @@ function eliminar_libro(id, titulo) {
 function handle_response_agregar_editar(data) {
     console.log(data);
     if (data.libro) {
+        alert("La operacion se realizo con exito")
         const libro = data.libro;
         window.location.href = `/libros/libro?id=${libro.id}`
     } else {
@@ -210,7 +211,9 @@ function handle_error_editar(error) {
     alert("Ocurrió un error al editar el libro");
 }
 
-function editarLibro(event) {
+function editarLibro(event){
+    const params = new URLSearchParams(window.location.search)
+    const id = params.get("id")
 
     event.preventDefault()
     const formData = new FormData(event.target)
@@ -225,12 +228,12 @@ function editarLibro(event) {
         return;
     }
 
-
+    
     if (titulo === null || autor === null || categoria === null || categoria === "null" || fecha_publicacion === null || imagen === null) {
         alert("Por favor, complete todos los campos");
-        return;
+        return; 
     }
-
+    
     fetch(`http://localhost:5000/libros/${id}`, {
         method: "PUT",
         headers: {
@@ -249,22 +252,24 @@ function editarLibro(event) {
         .catch(handle_error_editar)
 }
 
-function cargar_libro_editar(){
+
+function cargar_libro_editar() {
     const params = new URLSearchParams(window.location.search)
     const id = params.get("id")
+
 
     if (id === null) {
         window.location.href = "/";
     }
-
+    
     fetch(`http://localhost:5000/libros/${id}`)
         .then(response_received)
         .then(parse_data_editar)
-        .catch(handle_error_editar)
-
+        .catch(handle_error_editar);
 }
 
-function cargar_libro_ver_libro(){
+
+function cargar_libro_ver_libro() {
     const params = new URLSearchParams(window.location.search)
     const id = params.get("id")
 
@@ -281,14 +286,18 @@ function cargar_libro_ver_libro(){
 
 document.addEventListener("DOMContentLoaded", function () {
     const rutaActual = window.location.pathname;
-
+    console.log(rutaActual);
+    
     if (rutaActual == '/libros/' || rutaActual == '/eliminar/seleccionar/' || rutaActual == '/editar/seleccionar/') {
-        cargar_libros(); 
+        cargar_libros();
     } else if (rutaActual.includes('/libros/libro')) {
         cargar_libro_ver_libro();
     } else if (rutaActual == '/crear/') {
         //cosas necesrias a realizar para /crear/
     } else if (rutaActual.includes('/editar/')) {
+        console.log("prueba")
         cargar_libro_editar();
+    } else {
+        console.log(rutaActual)
     }
 });
