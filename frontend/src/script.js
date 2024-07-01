@@ -20,11 +20,11 @@ function parse_data_cargar_libros(content) {
         const imagen = document.createElement("img");
         imagen.setAttribute("class", "card-img-top");
         imagen.setAttribute("src", content[i].imagen);
-        imagen.setAttribute("style", "max-height: 200px;"); // Establecer altura máxima para la imagen
+        imagen.setAttribute("style", "max-height: 200px;"); 
 
         const carta = document.createElement("a");
         carta.setAttribute("class", "card text-decoration-none card-custom");
-        carta.setAttribute("style", "overflow: hidden;"); // Establecer altura máxima y ocultar contenido excedente
+        carta.setAttribute("style", "overflow: hidden;"); 
 
         carta_cuerpo = null
         if (rutaActual == '/libros/') {
@@ -35,7 +35,7 @@ function parse_data_cargar_libros(content) {
             carta.setAttribute("onclick", `eliminar_libro(${content[i].id}, "${content[i].titulo}")`)
             carta_cuerpo = document.createElement("button");
             carta_cuerpo.setAttribute("class", "btn btn-danger small-text no-border-radius");
-            // carta_cuerpo.setAttribute("onclick", `eliminar_libro(${content[i].id}, "${content[i].titulo}")`)
+            
         } else if (rutaActual == '/editar/seleccionar/') {
             carta_cuerpo = document.createElement("div");
             carta.setAttribute("href", "/editar/?id=" + content[i].id);
@@ -76,7 +76,7 @@ function mostrar_todos() {
     cargar_libros();
 }
 
-//esto es libros/libro
+
 
 function parse_data_libro(libro) {
     const loading_message = document.getElementById("loading-message");
@@ -87,7 +87,7 @@ function parse_data_libro(libro) {
 
     const imagen = document.getElementById("imagen")
     imagen.setAttribute("src", libro.imagen)
-    //imagen.classList.add("img-thumbnail")
+    
     imagen.setAttribute("class", "img-fluid img-thumbnail");
 
     const categoria = document.getElementById("categoria")
@@ -153,7 +153,7 @@ function handle_response_agregar_editar(data) {
     }
 }
 
-function agregar_libro(event) { // event --> submit
+function agregar_libro(event) { 
     event.preventDefault()
 
     const formData = new FormData(event.target)
@@ -274,7 +274,7 @@ function cargar_libro_ver_libro() {
     const id = params.get("id")
 
     if (id === null) {
-        window.location.href = "/"; //esto salta si la direccion es: libros/
+        window.location.href = "/"; 
     }
 
     fetch(`http://localhost:5000/libros/${id}`)
@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (rutaActual.includes('/libros/libro')) {
         cargar_libro_ver_libro();
     } else if (rutaActual == '/crear/') {
-        //cosas necesrias a realizar para /crear/
+        
     } else if (rutaActual.includes('/editar/')) {
         console.log("prueba")
         cargar_libro_editar();
