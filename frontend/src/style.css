@@ -50,6 +50,9 @@ body {
     background-color: #8B4513;
 }
 
+.no-border-radius {
+    border-radius: 0;
+}
 
 .container:not(nav .container) {
     margin-bottom: 20px;
@@ -64,4 +67,3 @@ body {
 .custom-padding {
     padding: 9px;
 }
-
